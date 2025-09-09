@@ -2,5 +2,20 @@
   Content-Encoding: br
   Cache-Control: max-age=31536000
 
+/Build/*.data
+  Content-Type: application/octet-stream
+
 /Build/*.wasm
   Content-Type: application/wasm
+
+/Build/*.js
+  Content-Type: application/javascript
+
+/Build/*.mem
+  Content-Type: application/octet-stream
+
+/TemplateData/*
+  Cache-Control: max-age=31536000
+
+/index.html
+  Cache-Control: no-cache
