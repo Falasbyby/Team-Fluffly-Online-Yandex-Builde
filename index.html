@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="./style.css">
 
     <!-- Yandex Games SDK -->
-    <script src="https://sdk.games.s3.yandex.net/sdk.js"></script>
-
+    <script src="/sdk.js"></script>
 
     <style>
         canvas:focus {
@@ -55,9 +54,9 @@
         const buildUrl = "Build";
         const loaderUrl = buildUrl + "/YandexBuildeIFrame.loader.js";
         const config = {
-            dataUrl: buildUrl + "/YandexBuildeIFrame.data",
-            frameworkUrl: buildUrl + "/YandexBuildeIFrame.framework.js",
-            codeUrl: buildUrl + "/YandexBuildeIFrame.wasm",
+            dataUrl: buildUrl + "/YandexBuildeIFrame.data.br",
+            frameworkUrl: buildUrl + "/YandexBuildeIFrame.framework.js.br",
+            codeUrl: buildUrl + "/YandexBuildeIFrame.wasm.br",
         streamingAssetsUrl: "StreamingAssets",
             companyName: "Fluffy",
             productName: "Team Fluffy Online",
@@ -316,7 +315,7 @@ LogStyledMessage('Init Payments ysdk');
         }
 
         // Additional script modules
-LogStyledMessage('PluginYG2 v2.005  build: 106');
+LogStyledMessage('PluginYG2 v2.005  build: 107');
 
 
 function RewardedAdvShow(id) {
