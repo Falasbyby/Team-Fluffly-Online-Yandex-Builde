@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="./style.css">
 
-   <!-- Yandex Games SDK -->
+    <!-- Yandex Games SDK -->
     <script src="https://sdk.games.s3.yandex.net/sdk.js"></script>
-
 
     <style>
         canvas:focus {
@@ -88,7 +87,7 @@
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
-            
+            config.devicePixelRatio = 1.3;
         }
 
         // The background image when loading the game. When building a build, the code changes depending on the project settings.
@@ -286,6 +285,9 @@ LogStyledMessage('Init Authorization ysdk');
 
 
                 // Additional init modules
+await LoadCloud();
+LogStyledMessage('Init Storage ysdk');
+
 await InitPayments();
 LogStyledMessage('Init Payments ysdk');
 
@@ -316,7 +318,54 @@ LogStyledMessage('Init Payments ysdk');
         }
 
         // Additional script modules
-LogStyledMessage('PluginYG2 v2.005  build: 107');
+LogStyledMessage('PluginYG2 v2.005  build: 110');
+
+var cloudSaves = NO_DATA;
+
+function SaveCloud(jsonData, flush) {
+    if (player == null) {
+        console.error('CRASH Save Cloud: ', 'Didnt have time to load');
+        return;
+    }
+    try {
+        player.setData({
+            saves: [jsonData],
+        }, flush);
+    } catch (e) {
+        console.error('CRASH Save Cloud: ', e.message);
+    }
+}
+
+function LoadCloud() {
+    return new Promise((resolve) => {
+        if (ysdk == null) {
+            Final(NO_DATA);
+            return;
+        }
+        try {
+            player.getData(["saves"]).then(data => {
+                if (data.saves) {
+                    Final(JSON.stringify(data.saves));
+                } else {
+                    Final(NO_DATA);
+                }
+            }).catch(() => {
+                console.error('Load Cloud Error!');
+                Final(NO_DATA);
+            });
+        }
+        catch (e) {
+            console.error('CRASH Load saves Cloud: ', e.message);
+            Final(NO_DATA);
+        }
+
+        function Final(res) {
+            cloudSaves = res;
+            YG2Instance('SetLoadSaves', res);
+            resolve(res);
+        }
+    });
+}
 
 
 function RewardedAdvShow(id) {
