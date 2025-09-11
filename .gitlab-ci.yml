@@ -1,0 +1,25 @@
+stages:
+  - build
+  - deploy
+
+build-webgl:
+  stage: build
+  image: unityci/editor:ubuntu-2022.3.11f1-webgl-1.0.0
+  script:
+    - unity-editor -batchmode -nographics -projectPath . -buildTarget WebGL -quit
+  artifacts:
+    paths:
+      - WebGL-Build/
+    expire_in: 1 week
+
+pages:
+  stage: deploy
+  dependencies:
+    - build-webgl
+  script:
+    - mv WebGL-Build public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
